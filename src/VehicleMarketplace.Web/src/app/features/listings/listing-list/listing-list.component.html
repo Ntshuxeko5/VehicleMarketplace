@@ -1,0 +1,132 @@
+<div class="container mx-auto py-8">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Browse Vehicles</h1>
+        <a mat-raised-button color="primary" routerLink="/listings/create">
+            <mat-icon>add</mat-icon> Sell Your Car
+        </a>
+    </div>
+
+    <!-- Search & Filter Section -->
+    <mat-card class="mb-6 p-4">
+        <h2 class="text-xl font-bold mb-4">Search & Filters</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <!-- Search Keyword -->
+            <mat-form-field appearance="outline">
+                <mat-label>Search</mat-label>
+                <input matInput [(ngModel)]="searchKeyword" placeholder="Search by keyword...">
+                <mat-icon matPrefix>search</mat-icon>
+            </mat-form-field>
+
+            <!-- Category -->
+            <mat-form-field appearance="outline">
+                <mat-label>Category</mat-label>
+                <mat-select [(ngModel)]="selectedCategory">
+                    <mat-option value="">All Categories</mat-option>
+                    @for (cat of categories(); track cat.id) {
+                    <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Province -->
+            <mat-form-field appearance="outline">
+                <mat-label>Province</mat-label>
+                <mat-select [(ngModel)]="selectedProvince">
+                    <mat-option value="">All Provinces</mat-option>
+                    @for (prov of provinces; track prov) {
+                    <mat-option [value]="prov">{{ prov }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+            <!-- Transmission -->
+            <mat-form-field appearance="outline">
+                <mat-label>Transmission</mat-label>
+                <mat-select [(ngModel)]="selectedTransmission">
+                    <mat-option value="">Any</mat-option>
+                    @for (trans of transmissions; track trans) {
+                    <mat-option [value]="trans">{{ trans }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Fuel Type -->
+            <mat-form-field appearance="outline">
+                <mat-label>Fuel Type</mat-label>
+                <mat-select [(ngModel)]="selectedFuelType">
+                    <mat-option value="">Any</mat-option>
+                    @for (fuel of fuelTypes; track fuel) {
+                    <mat-option [value]="fuel">{{ fuel }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Min Year -->
+            <mat-form-field appearance="outline">
+                <mat-label>Min Year</mat-label>
+                <input matInput type="number" [(ngModel)]="minYear">
+            </mat-form-field>
+
+            <!-- Max Year -->
+            <mat-form-field appearance="outline">
+                <mat-label>Max Year</mat-label>
+                <input matInput type="number" [(ngModel)]="maxYear">
+            </mat-form-field>
+        </div>
+
+        <div class="flex gap-2">
+            <button mat-raised-button color="primary" (click)="applyFilters()">
+                <mat-icon>search</mat-icon> Apply Filters
+            </button>
+            <button mat-button (click)="clearFilters()">
+                <mat-icon>clear</mat-icon> Clear
+            </button>
+        </div>
+    </mat-card>
+
+    @if (isLoading()) {
+    <app-car-loader></app-car-loader>
+    } @else if (error()) {
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ error() }}</span>
+    </div>
+    } @else if (listings().length === 0) {
+    <div class="text-center py-12 bg-gray-50 rounded-lg">
+        <mat-icon class="text-6xl text-gray-400 mb-4">directions_car</mat-icon>
+        <p class="text-xl text-gray-600">No listings found.</p>
+        <p class="text-gray-500 mt-2">Be the first to list a vehicle!</p>
+    </div>
+    } @else {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @for (listing of listings(); track listing.id) {
+        <mat-card
+            class="listing-card hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
+            <img mat-card-image [src]="listing.imageUrl || 'assets/placeholder-car.jpg'" alt="{{ listing.title }}"
+                class="h-48 object-cover">
+            <mat-card-content class="p-4">
+                <div class="flex justify-between items-start mb-2">
+                    <h2 class="text-xl font-bold truncate">{{ listing.title }}</h2>
+                    <span class="text-lg font-bold text-indigo-600">{{ listing.price | currency:'ZAR':'symbol-narrow'
+                        }}</span>
+                </div>
+                <p class="text-gray-600 mb-4 line-clamp-2">{{ listing.description }}</p>
+                <div class="flex gap-2 text-sm text-gray-500 mb-4">
+                    <span class="flex items-center gap-1"><mat-icon class="text-sm">calendar_today</mat-icon> {{
+                        listing.year }}</span>
+                    <span class="flex items-center gap-1"><mat-icon class="text-sm">speed</mat-icon> {{ listing.mileage
+                        | number }} km</span>
+                    <span class="flex items-center gap-1"><mat-icon class="text-sm">local_gas_station</mat-icon> {{
+                        listing.fuelType }}</span>
+                </div>
+            </mat-card-content>
+            <mat-card-actions align="end" class="p-4 pt-0">
+                <a mat-button color="primary" [routerLink]="['/listings', listing.id]">View Details</a>
+            </mat-card-actions>
+        </mat-card>
+        }
+    </div>
+    }
+</div>

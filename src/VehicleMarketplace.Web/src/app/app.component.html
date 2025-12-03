@@ -1,0 +1,32 @@
+<mat-toolbar color="primary" class="flex justify-between items-center px-4 shadow-md">
+  <a routerLink="/" class="text-white no-underline flex items-center gap-2">
+    <mat-icon>directions_car</mat-icon>
+    <span class="font-bold text-xl">VehicleMarketplace</span>
+  </a>
+
+  <div class="flex gap-4 items-center">
+    <a mat-button routerLink="/listings">Browse Cars</a>
+
+    @if (authService.currentUser()) {
+    <a mat-button routerLink="/listings/create">Sell Car</a>
+    <a mat-button routerLink="/profile">
+      <mat-icon>person</mat-icon> Profile
+    </a>
+    @if (authService.currentUser()?.roles && authService.currentUser()!.roles.includes('Admin')) {
+    <a mat-button routerLink="/admin">Dashboard</a>
+    }
+    <button mat-button (click)="authService.logout()">Logout</button>
+    } @else {
+    <a mat-button routerLink="/auth/login">Login</a>
+    <a mat-raised-button color="accent" routerLink="/auth/register">Register</a>
+    }
+  </div>
+</mat-toolbar>
+
+<main class="container mx-auto p-4 min-h-screen bg-gray-50">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="bg-gray-800 text-white p-4 text-center mt-8">
+  <p>&copy; 2024 Vehicle Marketplace. All rights reserved.</p>
+</footer>

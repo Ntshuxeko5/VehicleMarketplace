@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: vehiclemarketplace-db
+    environment:
+      POSTGRES_DB: VehicleMarketplaceDb
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-SecurePassword123!}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - vehiclemarketplace-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U dbuser -d VehicleMarketplaceDb" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: vehiclemarketplace-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=VehicleMarketplaceDb;Username=dbuser;Password=${DB_PASSWORD:-SecurePassword123!}"
+      JwtSettings__Secret: ${JWT_SECRET:-YourSuperSecretKeyHere123456789012345}
+      JwtSettings__Issuer: VehicleMarketplace
+      JwtSettings__Audience: VehicleMarketplaceUsers
+      JwtSettings__ExpiryMinutes: 1440
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - vehiclemarketplace-network
+    volumes:
+      - ./uploads:/app/wwwroot/images
+    restart: unless-stopped
+
+  # Frontend
+  frontend:
+    build:
+      context: ./src/VehicleMarketplace.Web
+      dockerfile: Dockerfile
+    container_name: vehiclemarketplace-web
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - vehiclemarketplace-network
+    restart: unless-stopped
+    environment:
+      API_URL: http://backend:8080/api
+
+networks:
+  vehiclemarketplace-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+    driver: local

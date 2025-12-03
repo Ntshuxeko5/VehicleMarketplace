@@ -1,0 +1,83 @@
+<div class="container mx-auto py-8 animate-fade-in">
+    <div class="mb-4">
+        <a mat-button routerLink="/listings" color="primary" class="hover:bg-indigo-50 transition-colors">
+            <mat-icon>arrow_back</mat-icon> Back to Listings
+        </a>
+    </div>
+
+    @if (isLoading()) {
+    <app-car-loader></app-car-loader>
+    } @else if (error()) {
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ error() }}</span>
+    </div>
+    } @else if (listing()) {
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Image Section -->
+        <div class="lg:col-span-2">
+            <div
+                class="bg-gray-200 rounded-lg overflow-hidden h-96 flex items-center justify-center mb-6 hover:scale-105 transition-transform duration-300">
+                <img [src]="listing()!.imageUrl || 'assets/placeholder-car.jpg'" alt="{{ listing()!.title }}"
+                    class="w-full h-full object-cover">
+            </div>
+
+            <mat-card class="p-6 hover:shadow-lg transition-shadow duration-300">
+                <h2 class="text-2xl font-bold mb-4">Description</h2>
+                <p class="text-gray-700 whitespace-pre-line">{{ listing()!.description }}</p>
+            </mat-card>
+        </div>
+
+        <!-- Details Section -->
+        <div class="lg:col-span-1">
+            <mat-card class="p-6 sticky top-4 hover:shadow-xl transition-shadow duration-300">
+                <h1 class="text-3xl font-bold mb-2">{{ listing()!.title }}</h1>
+                <p class="text-2xl font-bold text-indigo-600 mb-6 animate-pulse-slow">{{ listing()!.price |
+                    currency:'ZAR':'symbol-narrow' }}</p>
+
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-gray-50 p-3 rounded hover:bg-indigo-50 transition-colors duration-200">
+                        <span class="block text-xs text-gray-500 uppercase">Make</span>
+                        <span class="font-semibold">{{ listing()!.make }}</span>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded hover:bg-indigo-50 transition-colors duration-200">
+                        <span class="block text-xs text-gray-500 uppercase">Model</span>
+                        <span class="font-semibold">{{ listing()!.model }}</span>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded hover:bg-indigo-50 transition-colors duration-200">
+                        <span class="block text-xs text-gray-500 uppercase">Year</span>
+                        <span class="font-semibold">{{ listing()!.year }}</span>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded hover:bg-indigo-50 transition-colors duration-200">
+                        <span class="block text-xs text-gray-500 uppercase">Mileage</span>
+                        <span class="font-semibold">{{ listing()!.mileage | number }} km</span>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded hover:bg-indigo-50 transition-colors duration-200">
+                        <span class="block text-xs text-gray-500 uppercase">Transmission</span>
+                        <span class="font-semibold">{{ listing()!.transmission }}</span>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded hover:bg-indigo-50 transition-colors duration-200">
+                        <span class="block text-xs text-gray-500 uppercase">Fuel Type</span>
+                        <span class="font-semibold">{{ listing()!.fuelType }}</span>
+                    </div>
+                </div>
+
+                <div class="border-t pt-4 mb-6">
+                    <h3 class="font-bold mb-2">Location</h3>
+                    <p class="flex items-center gap-2 text-gray-600">
+                        <mat-icon>location_on</mat-icon> {{ listing()!.city }}, {{ listing()!.province }}
+                    </p>
+                </div>
+
+                <div class="border-t pt-4">
+                    <h3 class="font-bold mb-2">Seller</h3>
+                    <p class="flex items-center gap-2 text-gray-600 mb-4">
+                        <mat-icon>person</mat-icon> {{ listing()!.userName || 'Unknown Seller' }}
+                    </p>
+                    <button mat-raised-button color="primary"
+                        class="w-full py-2 text-lg hover:scale-105 transition-transform">Contact Seller</button>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+    }
+</div>

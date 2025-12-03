@@ -1,0 +1,327 @@
+/* Enhanced Animation Utilities */
+
+/* Page Transitions */
+@keyframes pageSlideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pageSlideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Listing Card Animations */
+@keyframes cardSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+/* Image Carousel Swipe Animation */
+@keyframes swipeLeft {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes swipeRight {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Enhanced Loading Animations */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+@keyframes skeletonPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}
+
+@keyframes dotsLoading {
+
+    0%,
+    80%,
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    40% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Filter Button Animations */
+@keyframes filterBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Utility Classes */
+.animate-page-in {
+    animation: pageFadeIn 0.4s ease-out;
+}
+
+.animate-slide-in-right {
+    animation: pageSlideInRight 0.3s ease-out;
+}
+
+.animate-slide-in-left {
+    animation: pageSlideInLeft 0.3s ease-out;
+}
+
+.animate-card-slide-up {
+    animation: cardSlideUp 0.4s ease-out;
+}
+
+.animate-swipe-left {
+    animation: swipeLeft 0.3s ease-in-out;
+}
+
+.animate-swipe-right {
+    animation: swipeRight 0.3s ease-in-out;
+}
+
+.animate-slide-from-right {
+    animation: slideInFromRight 0.3s ease-out;
+}
+
+.animate-slide-from-left {
+    animation: slideInFromLeft 0.3s ease-out;
+}
+
+/* Skeleton Loader */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+    border-radius: 4px;
+}
+
+.skeleton-pulse {
+    background-color: #e0e0e0;
+    animation: skeletonPulse 1.5s ease-in-out infinite;
+    border-radius: 4px;
+}
+
+/* Listing Grid Staggered Animation */
+.listing-card {
+    animation: cardSlideUp 0.5s ease-out backwards;
+}
+
+.listing-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.listing-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.listing-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.listing-card:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.listing-card:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.listing-card:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+.listing-card:nth-child(7) {
+    animation-delay: 0.35s;
+}
+
+.listing-card:nth-child(8) {
+    animation-delay: 0.4s;
+}
+
+.listing-card:nth-child(9) {
+    animation-delay: 0.45s;
+}
+
+/* Interactive Hover Effects */
+.listing-card:hover {
+    animation: cardPulse 0.3s ease-in-out;
+}
+
+/* Dots Loading Animation */
+.dots-loading span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 2px;
+    background-color: currentColor;
+    border-radius: 50%;
+    animation: dotsLoading 1.4s infinite ease-in-out;
+}
+
+.dots-loading span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.dots-loading span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+/* Filter Button Active State */
+.filter-btn-active {
+    animation: filterBounce 0.3s ease-out;
+}
+
+/* Smooth Transitions */
+.transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-spring {
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Image Hover Zoom */
+.image-zoom {
+    overflow: hidden;
+    position: relative;
+}
+
+.image-zoom img {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.image-zoom:hover img {
+    transform: scale(1.1);
+}
+
+/* Pagination Button Animation */
+.page-btn {
+    transition: all 0.2s ease;
+}
+
+.page-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.page-btn:active {
+    transform: translateY(0);
+}
+
+/* Vehicle Type Icon Animations */
+.vehicle-icon {
+    transition: all 0.3s ease;
+}
+
+.vehicle-icon:hover {
+    transform: scale(1.2) rotate(5deg);
+}
+
+.vehicle-icon-selected {
+    animation: filterBounce 0.5s ease-out;
+    color: #4F46E5;
+}

@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{26FE8DC8-24D9-432D-ABD2-3965EC2CE5B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleMarketplace.Domain", "src\VehicleMarketplace.Domain\VehicleMarketplace.Domain.csproj", "{D2A0F709-5585-41B1-B9A2-02254005E7AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleMarketplace.Application", "src\VehicleMarketplace.Application\VehicleMarketplace.Application.csproj", "{40A14C6C-B8D4-4D1B-881B-8890ED7609DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleMarketplace.Infrastructure", "src\VehicleMarketplace.Infrastructure\VehicleMarketplace.Infrastructure.csproj", "{EB7F7DF9-9F10-4E9E-828F-650200345C1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleMarketplace.API", "src\VehicleMarketplace.API\VehicleMarketplace.API.csproj", "{5C1216E2-452D-4BA3-805E-0B53022C3B79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleMarketplace.UnitTests", "src\VehicleMarketplace.UnitTests\VehicleMarketplace.UnitTests.csproj", "{3F81AC02-15FA-4B0F-A4C3-BDECB0D48972}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2A0F709-5585-41B1-B9A2-02254005E7AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2A0F709-5585-41B1-B9A2-02254005E7AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2A0F709-5585-41B1-B9A2-02254005E7AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2A0F709-5585-41B1-B9A2-02254005E7AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40A14C6C-B8D4-4D1B-881B-8890ED7609DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40A14C6C-B8D4-4D1B-881B-8890ED7609DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40A14C6C-B8D4-4D1B-881B-8890ED7609DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40A14C6C-B8D4-4D1B-881B-8890ED7609DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB7F7DF9-9F10-4E9E-828F-650200345C1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB7F7DF9-9F10-4E9E-828F-650200345C1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB7F7DF9-9F10-4E9E-828F-650200345C1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB7F7DF9-9F10-4E9E-828F-650200345C1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C1216E2-452D-4BA3-805E-0B53022C3B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C1216E2-452D-4BA3-805E-0B53022C3B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C1216E2-452D-4BA3-805E-0B53022C3B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C1216E2-452D-4BA3-805E-0B53022C3B79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F81AC02-15FA-4B0F-A4C3-BDECB0D48972}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F81AC02-15FA-4B0F-A4C3-BDECB0D48972}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F81AC02-15FA-4B0F-A4C3-BDECB0D48972}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F81AC02-15FA-4B0F-A4C3-BDECB0D48972}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D2A0F709-5585-41B1-B9A2-02254005E7AE} = {26FE8DC8-24D9-432D-ABD2-3965EC2CE5B4}
+		{40A14C6C-B8D4-4D1B-881B-8890ED7609DE} = {26FE8DC8-24D9-432D-ABD2-3965EC2CE5B4}
+		{EB7F7DF9-9F10-4E9E-828F-650200345C1D} = {26FE8DC8-24D9-432D-ABD2-3965EC2CE5B4}
+		{5C1216E2-452D-4BA3-805E-0B53022C3B79} = {26FE8DC8-24D9-432D-ABD2-3965EC2CE5B4}
+		{3F81AC02-15FA-4B0F-A4C3-BDECB0D48972} = {26FE8DC8-24D9-432D-ABD2-3965EC2CE5B4}
+	EndGlobalSection
+EndGlobal

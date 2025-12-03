@@ -1,0 +1,151 @@
+<div class="container mx-auto py-8">
+    <mat-card class="max-w-3xl mx-auto p-6 shadow-lg">
+        <mat-card-header class="mb-6">
+            <mat-card-title class="text-2xl font-bold">{{ isEditMode() ? 'Edit Listing' : 'Create New Listing'
+                }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form [formGroup]="listingForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+                @if (error()) {
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span class="block sm:inline">{{ error() }}</span>
+                </div>
+                }
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Title</mat-label>
+                        <input matInput formControlName="title" placeholder="e.g. 2020 Toyota Corolla">
+                        @if (listingForm.get('title')?.hasError('required')) {
+                        <mat-error>Title is required</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Price (ZAR)</mat-label>
+                        <input matInput type="number" formControlName="price">
+                        @if (listingForm.get('price')?.hasError('required')) {
+                        <mat-error>Price is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Description</mat-label>
+                    <textarea matInput formControlName="description" rows="4"
+                        placeholder="Describe your vehicle..."></textarea>
+                    @if (listingForm.get('description')?.hasError('required')) {
+                    <mat-error>Description is required</mat-error>
+                    }
+                </mat-form-field>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Make</mat-label>
+                        <input matInput formControlName="make" placeholder="Toyota">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Model</mat-label>
+                        <input matInput formControlName="model" placeholder="Corolla">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Year</mat-label>
+                        <input matInput type="number" formControlName="year">
+                    </mat-form-field>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Mileage (km)</mat-label>
+                        <input matInput type="number" formControlName="mileage">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Transmission</mat-label>
+                        <mat-select formControlName="transmission">
+                            @for (trans of transmissions; track trans) {
+                            <mat-option [value]="trans">{{ trans }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Fuel Type</mat-label>
+                        <mat-select formControlName="fuelType">
+                            @for (fuel of fuelTypes; track fuel) {
+                            <mat-option [value]="fuel">{{ fuel }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Category</mat-label>
+                        <mat-select formControlName="categoryId">
+                            @for (cat of categories(); track cat.id) {
+                            <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>City</mat-label>
+                        <input matInput formControlName="city">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Province</mat-label>
+                        <input matInput formControlName="province">
+                    </mat-form-field>
+                </div>
+
+                <!-- Image Upload Section -->
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 mt-4" (dragover)="onDragOver($event)"
+                    (drop)="onDrop($event)">
+                    <h3 class="text-lg font-bold mb-4 text-gray-700">Vehicle Images</h3>
+                    <p class="text-sm text-gray-500 mb-4">Upload up to {{maxImages}} images (JPG, PNG, WebP, max 5MB
+                        each)</p>
+
+                    <div class="flex flex-col items-center justify-center py-6">
+                        <mat-icon class="text-6xl text-gray-400 mb-2">cloud_upload</mat-icon>
+                        <p class="text-gray-600 mb-2">Drag and drop images here or</p>
+                        <input type="file" #fileInput (change)="onFileSelected($event)"
+                            accept="image/jpeg,image/png,image/webp" multiple hidden>
+                        <button type="button" mat-raised-button color="accent" (click)="fileInput.click()"
+                            [disabled]="selectedImages.length >= maxImages">
+                            Choose Files
+                        </button>
+                    </div>
+
+                    <!-- Image Previews -->
+                    @if (imagePreviews.length > 0) {
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mt-6">
+                        @for (preview of imagePreviews; track $index) {
+                        <div class="relative group">
+                            <img [src]="preview" alt="Preview"
+                                class="w-full h-32 object-cover rounded-lg border-2 border-gray-200">
+                            <button type="button" mat-icon-button color="warn" (click)="removeImage($index)"
+                                class="absolute top-1 right-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div class="flex justify-end gap-4 mt-4">
+                    <a mat-button routerLink="/listings" [disabled]="isLoading()">Cancel</a>
+                    <button mat-raised-button color="primary" type="submit"
+                        [disabled]="listingForm.invalid || isLoading()">
+                        {{ isLoading() ? 'Saving...' : 'Save Listing' }}
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,40 @@
+# Backend Dockerfile for ASP.NET Core 8 API
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy solution and project files
+COPY ["VehicleMarketplace.sln", "./"]
+COPY ["src/VehicleMarketplace.API/VehicleMarketplace.API.csproj", "src/VehicleMarketplace.API/"]
+COPY ["src/VehicleMarketplace.Application/VehicleMarketplace.Application.csproj", "src/VehicleMarketplace.Application/"]
+COPY ["src/VehicleMarketplace.Domain/VehicleMarketplace.Domain.csproj", "src/VehicleMarketplace.Domain/"]
+COPY ["src/VehicleMarketplace.Infrastructure/VehicleMarketplace.Infrastructure.csproj", "src/VehicleMarketplace.Infrastructure/"]
+
+# Restore dependencies
+RUN dotnet restore "VehicleMarketplace.sln"
+
+# Copy all source files
+COPY . .
+
+# Build the application
+WORKDIR "/src/src/VehicleMarketplace.API"
+RUN dotnet build "VehicleMarketplace.API.csproj" -c Release -o /app/build
+
+# Publish the application
+FROM build AS publish
+RUN dotnet publish "VehicleMarketplace.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+# Copy published files
+COPY --from=publish /app/publish .
+
+# Set environment variables
+ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_ENVIRONMENT=Production
+
+# Run the application
+ENTRYPOINT ["dotnet", "VehicleMarketplace.API.dll"]
