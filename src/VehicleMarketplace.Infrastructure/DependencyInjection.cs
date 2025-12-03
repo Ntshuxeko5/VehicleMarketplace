@@ -30,6 +30,7 @@ namespace VehicleMarketplace.Infrastructure
             services.AddAuthorizationBuilder();
 
             services.AddScoped<IImageService, LocalImageService>();
+            services.AddScoped<IPaymentService, PaystackPaymentService>();
 
             return services;
         }

@@ -15,6 +15,9 @@ namespace VehicleMarketplace.Infrastructure.Persistence
         public DbSet<VehicleImage> VehicleImages { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Report> Reports { get; set; }
+        public DbSet<Conversation> Conversations { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -36,6 +39,34 @@ namespace VehicleMarketplace.Infrastructure.Persistence
                 .WithMany(v => v.Images)
                 .HasForeignKey(i => i.VehicleListingId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Conversation configurations
+            builder.Entity<Conversation>()
+                .HasOne(c => c.Buyer)
+                .WithMany(u => u.BuyerConversations)
+                .HasForeignKey(c => c.BuyerId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+            builder.Entity<Conversation>()
+                .HasOne(c => c.Seller)
+                .WithMany(u => u.SellerConversations)
+                .HasForeignKey(c => c.SellerId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+            builder.Entity<Conversation>()
+                .HasOne(c => c.SupportUser)
+                .WithMany(u => u.SupportConversations)
+                .HasForeignKey(c => c.SupportUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Message configurations
+            builder.Entity<Message>()
+                .HasIndex(m => m.ConversationId);
+
+            // Payment configurations
+            builder.Entity<Payment>()
+                .Property(p => p.Amount)
+                .HasPrecision(18, 2);
                 
             // Seed Categories
             builder.Entity<Category>().HasData(
